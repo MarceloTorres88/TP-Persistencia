@@ -21,7 +21,7 @@ router.post("/", (req, res) => {
         res.status(400).send('Bad request: existe otra carrera con el mismo nombre')
       }
       else {
-        console.log(`Error al intentar insertar en la base de datos: ${error}`)
+        console.log(`Error al intentar insertar carrera en la base de datos: ${error}`)
         res.sendStatus(500)
       }
     });

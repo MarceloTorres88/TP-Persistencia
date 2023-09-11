@@ -21,7 +21,7 @@ router.post("/", (req, res) => {
             res.status(400).send('Bad request: existe otra materia con el mismo nombre')
         }
         else {
-            console.log(`Error al intentar insertar en la base de datos: ${error}`)
+            console.log(`Error al intentar insertar materia en la base de datos: ${error}`)
             res.sendStatus(500)
         }
     });
@@ -48,7 +48,7 @@ router.get("/:id", (req, res) => {
 router.put("/:id", (req, res) => {
     const onSuccess = materia =>
         materia
-        .update({ nombre: req.body.nombre,ID_carrera: req.body.ID_carrera }, { fields: ["nombre","ID_carrera"] })
+        .update({ nombre: req.body.nombre, ID_carrera: req.body.ID_carrera }, { fields: ["nombre","ID_carrera"] })
         .then(() => res.sendStatus(200))
         .catch(error => {
             if (error == "SequelizeUniqueConstraintError: Validation error") {
@@ -60,8 +60,8 @@ router.put("/:id", (req, res) => {
             }
         });
         findMateria(req.params.id, {
-            onSuccess,
-            onNotFound: () => res.sendStatus(404),
+        onSuccess,
+        onNotFound: () => res.sendStatus(404),
         onError: () => res.sendStatus(500)
     });
 });
