@@ -3,7 +3,7 @@ var router = express.Router();
 var models = require("../models");
 
 router.get("/", (req, res) => {
-  console.log("Esto es un mensaje para ver en consola");
+  console.log("Obteniendo datos de carreras");
   models.carrera
     .findAll({
       attributes: ["id", "nombre"]
