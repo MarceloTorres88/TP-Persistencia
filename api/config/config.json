@@ -1,0 +1,10 @@
+{
+  "development": {
+    "username": "root",
+    "password": "",
+    "database": "Unahur",
+    "host": "localhost",
+    "dialect": "mariadb",
+    "operatorsAliases": 1
+  }
+}
