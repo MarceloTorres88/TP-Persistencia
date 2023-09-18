@@ -1,7 +1,7 @@
 {
   "development": {
     "username": "root",
-    "password": "1106",
+    "password": "",
     "database": "unahur",
     "host": "localhost",
     "dialect": "mariadb",
