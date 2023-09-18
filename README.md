@@ -4,10 +4,12 @@
 
 1-  Clonar el repositorio:
 - Abrir una consola cmd o bash.
+- Copiar y pegar el siguiente comando.
 
     git clone https://github.com/MarceloTorres88/TP-Persistencia.git 
 
 2 - Configurar Json:
+- Abrir el IDE a elección como Visual Studio Code y abrir el Folder TP-Persistencia.
 - Antes de actualizar la base con la migración debemos entrar el archivo en config.json dentro de config.
 - Modificar la constraseña creada para la base de datos.
 
