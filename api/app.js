@@ -5,6 +5,9 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var carrerasRouter = require('./routes/carreras');
 var materiasRouter = require('./routes/materias');
+var profesoresRouter = require('./routes/profesores');
+var horariosRouter = require('./routes/horarios');
+var jwt = require("jsonwebtoken");
 
 var app = express();
 
