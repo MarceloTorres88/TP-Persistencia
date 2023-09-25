@@ -21,6 +21,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Si se usa /tal usa tal enrutador.
 app.use('/mat', materiasRouter);
 app.use('/car', carrerasRouter);
+app.use('/pro',profesoresRouter);
+app.use('/hor',horariosRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
