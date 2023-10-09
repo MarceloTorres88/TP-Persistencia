@@ -1,10 +1,11 @@
 {
   "development": {
     "username": "root",
-    "password": "1106",
+    "password": "",
     "database": "unahur",
     "host": "localhost",
     "dialect": "mariadb",
-    "operatorsAliases": 1
+    "operatorsAliases": 1,
+    "port": "3006"
   }
 }

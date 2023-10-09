@@ -13,8 +13,8 @@ var http = require('http');
  */
 
 
-
-var port = normalizePort(process.env.PORT || '3006');
+/*var port = normalizePort(process.env.PORT || '3006');LMH*/
+var port = normalizePort(process.env.PORT || '3306');
 app.set('port', port);
 
 /**
