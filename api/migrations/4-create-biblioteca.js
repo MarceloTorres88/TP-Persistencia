@@ -14,7 +14,7 @@ module.exports = {
             titulo: {
                 type: Sequelize.STRING
             },
-            año: {
+            fecha: {
                 type: Sequelize.DATE
             }
         });

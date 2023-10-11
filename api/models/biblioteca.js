@@ -11,10 +11,6 @@ module.exports = (sequelize, DataTypes) => {
         biblioteca.hasMany(models.profesor,{
             as: 'profesor_relacionada',
             foreignKey:'id_biblioteca'
-        }),
-        biblioteca.hasMany(models.horario,{
-            as: 'horario_relacionada',
-            foreignKey: 'id_biblioteca'
         })
     };
 
