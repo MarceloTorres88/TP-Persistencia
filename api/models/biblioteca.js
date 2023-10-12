@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
     const biblioteca = sequelize.define('biblioteca', {
         autor: DataTypes.STRING,
         titulo: DataTypes.STRING,
-        fecha: DataTypes.DATE,
+        fecha: DataTypes.DATE
     }, {});
 
     /*biblioteca.associate = function(models) {
