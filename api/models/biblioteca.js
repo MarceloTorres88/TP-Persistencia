@@ -6,14 +6,13 @@ module.exports = (sequelize, DataTypes) => {
         fecha: DataTypes.DATE
     }, {});
 
-    /*biblioteca.associate = function(models) {
-        /* biblioteca pertenece a un docente
+    biblioteca.associate = function(models) {
+        /* biblioteca pertenece a un docente*/
         biblioteca.hasMany(models.profesor,{
             as: 'profesor_relacionada',
             foreignKey:'id_biblioteca'
         })
     };
-    */
 
     return biblioteca;
 };

@@ -12,11 +12,11 @@ module.exports = (sequelize, DataTypes) => {
         profesor.belongsTo(models.materia,{
             as: 'materia_relacionada',
             foreignKey:'id_materia'
-        })/*,
+        }),
         profesor.belongsTo(models.biblioteca,{
             as: 'biblioteca_relacionada',
             foreignKey:'id_biblioteca'
-        })*/
+        })
     };
     return profesor;
 };
