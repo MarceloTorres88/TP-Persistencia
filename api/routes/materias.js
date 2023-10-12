@@ -38,7 +38,7 @@ router.post("/",verificar, (req, res) => {
         }else{
             models.materia
             .create({ nombre: req.body.nombre,ID_carrera: req.body.ID_carrera })
-            .then(materia => res.status(201).send({ id: materia.id }))
+            .then(materia => res.status(201).send({ id: materia.id,authData }))
             .catch(error => {
                 if (error == "SequelizeUniqueConstraintError: Validation error") {
                     res.status(400).send('Bad request: existe otra materia con el mismo nombre')
@@ -84,7 +84,7 @@ router.put("/:id",verificar, (req, res) => {
             const onSuccess = materia =>
             materia
             .update({ nombre: req.body.nombre, ID_carrera: req.body.ID_carrera }, { fields: ["nombre","ID_carrera"] })
-            .then(() => res.sendStatus(200))
+            .then(() => res.sendStatus(200),authData) /* en revision */
             .catch(error => {
                 if (error == "SequelizeUniqueConstraintError: Validation error") {
                     res.status(400).send('Bad request: existe otra materia con el mismo nombre')
@@ -104,7 +104,7 @@ router.put("/:id",verificar, (req, res) => {
 });
 
 router.delete("/:id",verificar, (req, res) => {
-    jwt.verify(req.toke,'clave',(error,authData) =>{
+    jwt.verify(req.token,'clave',(error,authData) =>{
         if(error){
             /* acceso prohibido/ forbbiden */
             res.sendStatus(403);
@@ -112,7 +112,7 @@ router.delete("/:id",verificar, (req, res) => {
             const onSuccess = materia => 
             materia
                 .destroy()
-                .then(() => res.sendStatus(200))
+                .then(() => res.sendStatus(200),authData) /* en revision */
                 .catch(() => res.sendStatus(500));
             findMateria(req.params.id, {
             onSuccess,

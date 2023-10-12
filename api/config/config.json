@@ -1,12 +1,15 @@
 {
   "development": {
     "username": "root",
-    "password": "",
+    "password": "1106",
     "database": "unahur",
     "host": "localhost",
     "dialect": "mariadb",
+    "dialectOptions": {
+      "useUTC": false,
+      "timezone": "Etc/GMT-0"
+    },
     "operatorsAliases": 1,
-    "port": "3006",
     "define": {"freezeTableName":true}
   }
 }
