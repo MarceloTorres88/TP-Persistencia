@@ -12,6 +12,39 @@ var jwt = require("jsonwebtoken");
 
 var app = express();
 
+// jwt
+
+//clave secreta traída de variable de entorno local
+
+const claveSecreta = process.env.clave_secreta;
+// usar primero para obtener token de acceso a los otros post.
+app.post("/registro", (req , res) => {
+  const usuario = {
+    id: 1,
+    nombre: "admin"
+  }
+
+  jwt.sign({user: usuario},claveSecreta,{expiresIn:'240s'},(err,token)=>{
+    res.json({
+      token
+    })
+  });
+})
+
+// Autorización
+function verificar(req,res,next){
+  const bearerHeader = req.headers['authorization'];
+  if(typeof bearerHeader !== 'undefined'){
+    /* si es distinto a undefined guardo solamente el token sin el Bearer <token>*/
+    const tokenVerificado = bearerHeader.split(" ")[1];
+    req.token = tokenVerificado;
+    next();
+  }else{
+    res.sendStatus(403);
+  }
+}
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
