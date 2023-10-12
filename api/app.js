@@ -7,6 +7,7 @@ var carrerasRouter = require('./routes/carreras');
 var materiasRouter = require('./routes/materias');
 var profesoresRouter = require('./routes/profesores');
 var horariosRouter = require('./routes/horarios');
+var bibliotecaRouter = require('./routes/biblioteca');
 var jwt = require("jsonwebtoken");
 
 var app = express();
@@ -26,6 +27,7 @@ app.use('/mat', materiasRouter);
 app.use('/car', carrerasRouter);
 app.use('/pro',profesoresRouter);
 app.use('/hor',horariosRouter);
+app.use('/bib',bibliotecaRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
