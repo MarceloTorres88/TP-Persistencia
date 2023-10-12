@@ -3,6 +3,8 @@ var router = express.Router();
 var models = require("../models");
 var jwt = require("jsonwebtoken");
 
+const claveSecreta = process.env.clave_secreta;
+
 // Autorización
 function verificar(req,res,next){
     const bearerHeader = req.headers['authorization'];
@@ -22,7 +24,8 @@ models.profesor
     .findAll({
         attributes: ["id","nombre","apellido","edad","id_materia","id_biblioteca"],
         include:[
-            {as:'materia_relacionada',model:models.materia,attributes:["id","nombre","id_carrera"]}
+            {as:'materia_relacionada',model:models.materia,attributes:["id","nombre","id_carrera"]},
+            {as:'biblioteca_relacionada',model:models.biblioteca,attributes:["id","autor","titulo","fecha"]}
         ]
     })
     .then(profesores => res.send(profesores))
@@ -30,7 +33,7 @@ models.profesor
 });
 
 router.post("/",verificar, (req, res) => {
-    jwt.verify(req.token,'clave',(error,authData) =>{
+    jwt.verify(req.token,claveSecreta,(error,authData) =>{
         if(error){
             res.sendStatus(403);
         }else{
@@ -55,7 +58,8 @@ models.profesor
     .findOne({
         attributes: ["id","nombre","apellido","edad","id_materia","id_biblioteca"],
         include:[
-            {as:'materia_relacionada',model:models.materia,attributes:["id","nombre","id_carrera"]}
+            {as:'materia_relacionada',model:models.materia,attributes:["id","nombre","id_carrera"]},
+            {as:'biblioteca_relacionada',model:models.biblioteca,attributes:["id","autor","titulo","fecha"]}
         ],
         where: { id }
     })
@@ -72,7 +76,7 @@ findProfesor(req.params.id, {
 });
 
 router.put("/:id",verificar, (req, res) => { 
-    jwt.verify(req.token,'clave',(error,authData) => {
+    jwt.verify(req.token,claveSecreta,(error,authData) => {
         if(error){
             /* acceso prohibido */
             res.sendStatus(403);
@@ -100,7 +104,7 @@ router.put("/:id",verificar, (req, res) => {
 });
 
 router.delete("/:id",verificar, (req, res) => {
-    jwt.verify(req.token,'clave',(error,authData) => {
+    jwt.verify(req.token,claveSecreta,(error,authData) => {
         if(error){
             /* acceso prohibido */
             res.sendStatus(403);

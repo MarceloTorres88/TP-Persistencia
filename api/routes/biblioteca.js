@@ -1,6 +1,9 @@
 var express = require("express");
 var router = express.Router();
 var models = require("../models");
+var jwt = require("jsonwebtoken");
+
+const claveSecreta = process.env.clave_secreta;
 
 router.get("/", (req, res) => {
     console.log("Obteniendo datos de la biblioteca");

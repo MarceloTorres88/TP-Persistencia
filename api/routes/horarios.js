@@ -3,6 +3,8 @@ var router = express.Router();
 var models = require("../models");
 var jwt = require("jsonwebtoken");
 
+const claveSecreta = process.env.clave_secreta;
+
 // Autorización
 function verificar(req,res,next){
     const bearerHeader = req.headers['authorization'];
@@ -30,7 +32,7 @@ router.get("/", (req, res) => {
 });
 
 router.post("/",verificar, (req, res) => {
-    jwt.verify(req.token,'clave',(error,authData) => {
+    jwt.verify(req.token,claveSecreta,(error,authData) => {
         if(error){
             /* acceso prohibido */
             res.sendStatus(403);
@@ -73,15 +75,15 @@ router.get("/:id", (req, res) => {
 });
 
 router.put("/:id",verificar, (req, res) => {
-    jwt.verify(req.token,'clave',(error,authData) => {
+    jwt.verify(req.token,claveSecreta,(error,authData) => {
         if(error){
             /* acceso prohibido */
             res.sendStatus(403);
         }else{
-        const onSuccess = horario =>
-        horario
+            const onSuccess = horario =>
+            horario
             .update({ dia: req.body.dia, inicio: req.body.inicio,fin: req.body.fin, id_materia: req.body.id_materia }, { fields: ["dia","inicio","fin","id_materia"] })
-            .then(() => res.sendStatus(200))
+            .then(() => res.sendStatus(200),authData) /* en revision */
             .catch(error => {
                 if (error == "SequelizeUniqueConstraintError: Validation error") {
                     res.status(400).send('Bad request: error al intentar actualizar horario')
@@ -91,31 +93,31 @@ router.put("/:id",verificar, (req, res) => {
                     res.sendStatus(500)
                 }
             });
-        findHorario(req.params.id, {
-        onSuccess,
-        onNotFound: () => res.sendStatus(404),
-        onError: () => res.sendStatus(500)
-        });
+            findHorario(req.params.id, {
+            onSuccess,
+            onNotFound: () => res.sendStatus(404),
+            onError: () => res.sendStatus(500)
+            });
         }
     })
 });
 
 router.delete("/:id",verificar, (req, res) => {
-    jwt.verify(req.token,'clave',(error,authData) => {
+    jwt.verify(req.token,claveSecreta,(error,authData) => {
         if(error){
             /* acceso prohibido */
             res.sendStatus(403);
         }else{
-        const onSuccess = horario =>
+            const onSuccess = horario =>
             horario
                 .destroy()
-                .then(() => res.sendStatus(200))
+                .then(() => res.sendStatus(200),authData)
                 .catch(() => res.sendStatus(500));
             findHorario(req.params.id, {
             onSuccess,
             onNotFound: () => res.sendStatus(404),
             onError: () => res.sendStatus(500)
-        });
+            });
         }
     })
 });
