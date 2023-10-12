@@ -4,7 +4,8 @@ module.exports = (sequelize, DataTypes) => {
         nombre: DataTypes.STRING,
         apellido: DataTypes.STRING,
         edad:DataTypes.INTEGER,
-        id_materia: DataTypes.INTEGER
+        id_materia: DataTypes.INTEGER,
+        id_biblioteca: DataTypes.INTEGER
     }, {});
     profesor.associate = function(models) {
         /* profesor pertenece a materia */
@@ -12,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
             as: 'materia_relacionada',
             foreignKey:'id_materia'
         }),
-        profesor.hasOne(models.biblioteca,{
+        profesor.belongsTo(models.biblioteca,{
             as: 'biblioteca_relacionada',
             foreignKey:'id_biblioteca'
         })

@@ -20,6 +20,9 @@ module.exports = {
             id_materia: {
                 type: Sequelize.INTEGER
             },
+            id_biblioteca: {
+                type: Sequelize.INTEGER
+            },
             createdAt: {
                 allowNull: false,
                 type: Sequelize.DATE
