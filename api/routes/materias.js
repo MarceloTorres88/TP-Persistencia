@@ -12,6 +12,7 @@ function verificar(req,res,next){
         req.token = tokenVerificado;
         next();
     }else{
+        console.log("error 403 del verificar");
         res.sendStatus(403);
     }
 }
