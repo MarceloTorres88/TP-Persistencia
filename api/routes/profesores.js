@@ -20,7 +20,7 @@ router.get("/", (req, res) => {
 console.log("Esto es un mensaje para ver en consola");
 models.profesor
     .findAll({
-        attributes: ["id","nombre","apellido","edad","id_materia"],
+        attributes: ["id","nombre","apellido","edad","id_materia","id_biblioteca"],
         include:[
             {as:'materia_relacionada',model:models.materia,attributes:["id","nombre","id_carrera"]}
         ]
@@ -35,7 +35,7 @@ router.post("/",verificar, (req, res) => {
             res.sendStatus(403);
         }else{
             models.profesor
-            .create({ nombre: req.body.nombre,apellido: req.body.apellido,edad: req.body.edad,id_materia: req.body.id_materia})
+            .create({ nombre: req.body.nombre,apellido: req.body.apellido,edad: req.body.edad,id_materia: req.body.id_materia, id_biblioteca: req.body.id_biblioteca})
             .then(profesor => res.status(201).send({ id: profesor.id, authData }))
             .catch(error => {
                 if (error == "SequelizeUniqueConstraintError: Validation error") {
@@ -53,7 +53,7 @@ router.post("/",verificar, (req, res) => {
 const findProfesor = (id, { onSuccess, onNotFound, onError }) => {
 models.profesor
     .findOne({
-        attributes: ["id","nombre","apellido","edad","id_materia"],
+        attributes: ["id","nombre","apellido","edad","id_materia","id_biblioteca"],
         include:[
             {as:'materia_relacionada',model:models.materia,attributes:["id","nombre","id_carrera"]}
         ],
@@ -79,7 +79,7 @@ router.put("/:id",verificar, (req, res) => {
         }else{
         const onSuccess = profesor =>
         profesor
-        .update({ nombre: req.body.nombre,apellido: req.body.apellido,edad: req.body.edad,id_materia: req.body.id_materia }, { fields: ["nombre","apellido","edad","id_materia"] })
+        .update({ nombre: req.body.nombre,apellido: req.body.apellido,edad: req.body.edad,id_materia: req.body.id_materia, id_biblioteca: req.body.id_biblioteca }, { fields: ["nombre","apellido","edad","id_materia","id_biblioteca"] })
         .then(() => res.sendStatus(200))
         .catch(error => {
             if (error == "SequelizeUniqueConstraintError: Validation error") {
