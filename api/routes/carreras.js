@@ -20,7 +20,7 @@ function verificar(req,res,next){
 }
 
 router.get("/", (req, res) => {
-  console.log("Obteniendo datos de carreras");
+  console.log("Obteniendo datos desde la ruta carreras");
   models.carrera
     .findAll({
       attributes: ["id", "nombre"],
@@ -33,18 +33,25 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  models.carrera
-    .create({ nombre: req.body.nombre })
-    .then(carrera => res.status(201).send({ id: carrera.id }))
-    .catch(error => {
-      if (error == "SequelizeUniqueConstraintError: Validation error") {
-        res.status(400).send('Bad request: existe otra carrera con el mismo nombre')
-      }
-      else {
-        console.log(`Error al intentar insertar carrera en la base de datos: ${error}`)
-        res.sendStatus(500)
-      }
-    });
+  jwt.verify(req.token,claveSecreta,(error,authData) =>{
+    if (error) {
+      console.log(error);
+      res.sendStatus(403);
+    }else {
+      models.carrera
+      .create({ nombre: req.body.nombre })
+      .then(carrera => res.status(201).send({ id: carrera.id }))
+      .catch(error => {
+        if (error == "SequelizeUniqueConstraintError: Validation error") {
+          res.status(400).send('Bad request: existe otra carrera con el mismo nombre')
+        }
+        else {
+          console.log(`Error al intentar insertar carrera en la base de datos: ${error}`)
+          res.sendStatus(500)
+        }
+      });
+    }
+  })
 });
 
 const findCarrera = (id, { onSuccess, onNotFound, onError }) => {
