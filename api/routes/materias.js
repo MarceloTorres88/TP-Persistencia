@@ -60,19 +60,19 @@ router.post("/",verificar, (req, res) => {
 
 const findMateria = (id, { onSuccess, onNotFound, onError }) => {
     models.materia
-    .findOne({
-        attributes: ["id", "nombre", "id_carrera"],
-        include: [
-            {as:'carrera_relacionada',model:models.carrera,attributes:['id','nombre']}
-            /*
-                {as:'profesor_relacionada',model:models.profesor,attributes:['id','nombre','apellido','edad']},
-                {as:'horario_relacionada',model:models.horario,attributes:['id','dia','inicio','fin']}
-            */
-        ],
-        where: { id }
-    })
-    .then(materia => (materia ? onSuccess(materia) : onNotFound()))
-    .catch(() => onError());
+        .findOne({
+            attributes: ["id", "nombre", "id_carrera"],
+            include: [
+                {as:'carrera_relacionada',model:models.carrera,attributes:['id','nombre']}
+                /*
+                    {as:'profesor_relacionada',model:models.profesor,attributes:['id','nombre','apellido','edad']},
+                    {as:'horario_relacionada',model:models.horario,attributes:['id','dia','inicio','fin']}
+                */
+            ],
+            where: { id }
+        })
+        .then(materia => (materia ? onSuccess(materia) : onNotFound()))
+        .catch(() => onError());
 };
 
 router.get("/:id", (req, res) => {
