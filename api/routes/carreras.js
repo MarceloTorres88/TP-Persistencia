@@ -25,7 +25,7 @@ router.get("/", (req, res) => {
     .findAll({
       attributes: ["id", "nombre"],
       include:[
-        {as:'materias',model:models.materia,attributes:['id','nombre']}
+        {as:'materias',model:models.materia,attributes:['id','nombre','id_carrera']}
       ]
     })
     .then(carreras => res.send(carreras))
@@ -52,7 +52,7 @@ const findCarrera = (id, { onSuccess, onNotFound, onError }) => {
     .findOne({
       attributes: ["id", "nombre"],
       include:[
-        {as:'materias',model:models.materia,attributes:['id','nombre']}
+        {as:'materias',model:models.materia,attributes:['id','nombre','id_carrera']}
       ],
       where: { id }
     })

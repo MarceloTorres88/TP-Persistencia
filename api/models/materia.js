@@ -2,7 +2,7 @@
 module.exports = (sequelize, DataTypes) => {
     const materia = sequelize.define('materia', {
         nombre: DataTypes.STRING,
-        ID_carrera: DataTypes.INTEGER
+        id_carrera: DataTypes.INTEGER
     }, {});
 
     materia.associate = function(models) {

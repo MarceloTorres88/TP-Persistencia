@@ -23,12 +23,14 @@ router.get("/", (req, res) => {
     console.log("Obteniendo datos de materias");
     models.materia
     .findAll({
-        attributes: ["id", "nombre", "ID_carrera"],
-        include:[
-            {as:'carrera_relacionada',model:models.carrera,attributes:['id','nombre']},
-            {as:'profesor_relacionada',model:models.profesor,attributes:['id','nombre','apellido','edad']},
-            {as:'horario_relacionada',model:models.horario,attributes:['id','dia','inicio','fin']}
-        ]
+        attributes: ["id", "nombre", "id_carrera"]
+        /*
+            include:[
+                {as:'carrera_relacionada',model:models.carrera,attributes:['id','nombre']},
+                {as:'profesor_relacionada',model:models.profesor,attributes:['id','nombre','apellido','edad']},
+                {as:'horario_relacionada',model:models.horario,attributes:['id','dia','inicio','fin']}
+            ]
+        */
     })
     .then(materias => res.send(materias))
     .catch(() => res.sendStatus(500));
@@ -37,6 +39,7 @@ router.get("/", (req, res) => {
 router.post("/",verificar, (req, res) => {
     jwt.verify(req.token,claveSecreta,(error,authData) =>{
         if(error){
+            console.log(error);
             res.sendStatus(403);
         }else{
             models.materia
@@ -58,12 +61,14 @@ router.post("/",verificar, (req, res) => {
 const findMateria = (id, { onSuccess, onNotFound, onError }) => {
     models.materia
     .findOne({
-        attributes: ["id", "nombre", "ID_carrera"],
-        include: [
-            {as:'carrera_relacionada',model:models.carrera,attributes:['id','nombre']},
-            {as:'profesor_relacionada',model:models.profesor,attributes:['id','nombre','apellido','edad']},
-            {as:'horario_relacionada',model:models.horario,attributes:['id','dia','inicio','fin']}
-        ],
+        attributes: ["id", "nombre", "id_carrera"],
+        /*
+            include: [
+                {as:'carrera_relacionada',model:models.carrera,attributes:['id','nombre']},
+                {as:'profesor_relacionada',model:models.profesor,attributes:['id','nombre','apellido','edad']},
+                {as:'horario_relacionada',model:models.horario,attributes:['id','dia','inicio','fin']}
+            ]
+        */
         where: { id }
     })
     .then(materia => (materia ? onSuccess(materia) : onNotFound()))
@@ -82,11 +87,12 @@ router.put("/:id",verificar, (req, res) => {
     jwt.verify(req.token,claveSecreta,(error,authData)=> {
         if(error){
             /* acceso prohibido/ forbbiden */
+            console.log(error);
             res.sendStatus(403);
         }else{
             const onSuccess = materia =>
             materia
-            .update({ nombre: req.body.nombre, ID_carrera: req.body.ID_carrera }, { fields: ["nombre","ID_carrera"] })
+            .update({ nombre: req.body.nombre, id_carrera: req.body.id_carrera }, { fields: ["nombre","id_carrera"] })
             .then(() => res.sendStatus(200),authData) /* en revision */
             .catch(error => {
                 if (error == "SequelizeUniqueConstraintError: Validation error") {
@@ -110,6 +116,7 @@ router.delete("/:id",verificar, (req, res) => {
     jwt.verify(req.token,claveSecreta,(error,authData) =>{
         if(error){
             /* acceso prohibido/ forbbiden */
+            console.log(error);
             res.sendStatus(403);
         }else{
             const onSuccess = materia => 
