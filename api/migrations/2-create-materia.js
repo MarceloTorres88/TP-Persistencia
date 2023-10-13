@@ -12,7 +12,6 @@ module.exports = {
                 type: Sequelize.STRING
             },
             id_carrera: {
-                allowNull: true,
                 type: Sequelize.INTEGER
             },
             createdAt: {
