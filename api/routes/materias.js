@@ -26,10 +26,8 @@ router.get("/", (req, res) => {
         attributes: ["id", "nombre", "id_carrera"],
         include:[
             {as:'carrera_relacionada',model:models.carrera,attributes:['id','nombre']},
-            {as:'profesor_relacionada',model:models.profesor,attributes:['id','nombre','apellido','edad']}
-            /*    
+            {as:'profesor_relacionada',model:models.profesor,attributes:['id','nombre','apellido','edad']},  
             {as:'horario_relacionada',model:models.horario,attributes:['id','dia','inicio','fin']}
-            */
         ]
     })
     .then(materias => res.send(materias))
@@ -64,10 +62,8 @@ const findMateria = (id, { onSuccess, onNotFound, onError }) => {
             attributes: ["id", "nombre", "id_carrera"],
             include: [
                 {as:'carrera_relacionada',model:models.carrera,attributes:['id','nombre']},
-                {as:'profesor_relacionada',model:models.profesor,attributes:['id','nombre','apellido','edad']}
-                /*
-                    {as:'horario_relacionada',model:models.horario,attributes:['id','dia','inicio','fin']}
-                */
+                {as:'profesor_relacionada',model:models.profesor,attributes:['id','nombre','apellido','edad']},
+                {as:'horario_relacionada',model:models.horario,attributes:['id','dia','inicio','fin']}
             ],
             where: { id }
         })
