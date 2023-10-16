@@ -25,14 +25,14 @@ router.get("/", (req, res) => {
     .findAll({
       attributes: ["id", "nombre"],
       include:[
-        {as:'materias',model:models.materia,attributes:['id','nombre','id_carrera']}
+        {as:'materias',model:models.materia,attributes:['id','nombre']}
       ]
     })
     .then(carreras => res.send(carreras))
     .catch(() => res.sendStatus(500));
 });
 
-router.post("/", (req, res) => {
+router.post("/",verificar, (req, res) => {
   jwt.verify(req.token,claveSecreta,(error,authData) =>{
     if (error) {
       console.log(error);
@@ -40,7 +40,7 @@ router.post("/", (req, res) => {
     }else {
       models.carrera
       .create({ nombre: req.body.nombre })
-      .then(carrera => res.status(201).send({ id: carrera.id }))
+      .then(carrera => res.status(201).send({ id: carrera.id,authData }))
       .catch(error => {
         if (error == "SequelizeUniqueConstraintError: Validation error") {
           res.status(400).send('Bad request: existe otra carrera con el mismo nombre')
@@ -59,7 +59,7 @@ const findCarrera = (id, { onSuccess, onNotFound, onError }) => {
     .findOne({
       attributes: ["id", "nombre"],
       include:[
-        {as:'materias',model:models.materia,attributes:['id','nombre','id_carrera']}
+        {as:'materias',model:models.materia,attributes:['id','nombre']}
       ],
       where: { id }
     })
@@ -75,7 +75,7 @@ router.get("/:id", (req, res) => {
   });
 });
 
-router.put("/:id", (req, res) => {
+router.put("/:id",verificar, (req, res) => {
   jwt.verify(req.token,claveSecreta,(error,authData)=> {
     if (error) {
       /* acceso prohibido/ forbbiden */
@@ -103,7 +103,7 @@ router.put("/:id", (req, res) => {
   })
 });
 
-router.delete("/:id", (req, res) => {
+router.delete("/:id",verificar, (req, res) => {
   jwt.verify(req.token,claveSecreta,(error,authData) =>{
     if (error) {
       /* acceso prohibido / forbbiden */
@@ -112,7 +112,7 @@ router.delete("/:id", (req, res) => {
       const onSuccess = carrera =>
       carrera
         .destroy()
-        .then(() => res.sendStatus(200))
+        .then(() => res.sendStatus(200),authData)
         .catch(() => res.sendStatus(500));
       findCarrera(req.params.id, {
       onSuccess,

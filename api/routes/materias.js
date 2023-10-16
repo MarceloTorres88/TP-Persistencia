@@ -115,7 +115,7 @@ router.put("/:id",verificar, (req, res) => {
 router.delete("/:id",verificar, (req, res) => {
     jwt.verify(req.token,claveSecreta,(error,authData) =>{
         if(error){
-            /* acceso prohibido/ forbbiden */
+            /* acceso prohibido / forbbiden */
             console.log(error);
             res.sendStatus(403);
         }else{
